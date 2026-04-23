@@ -300,6 +300,13 @@ func getCertExtensions(cert *x509.Certificate) Extensions {
 	// initialize []string to store them as `[]` instead of null
 	san := make([]string, 0)
 	san = append(san, cert.DNSNames...)
+	san = append(san, cert.EmailAddresses...)
+for _, ip := range cert.IPAddresses {
+	san = append(san, ip.String())
+}
+for _, uri := range cert.URIs {
+	san = append(san, uri.String())
+}
 	crld := make([]string, 0)
 	crld = append(crld, cert.CRLDistributionPoints...)
 	constraints, _ := GetConstraints(cert)
